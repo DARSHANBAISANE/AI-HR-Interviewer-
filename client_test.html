@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI HR Interviewer</title>
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- External CSS Link -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="glass-panel">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i data-lucide="bot" style="color: white; width: 22px;"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>HR AI Interviewer</h1>
+                    <p>Powered by Groq & Real-Time Voice</p>
+                </div>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot" id="statusDot"></div>
+                <span id="statusText">Ready</span>
+            </div>
+        </div>
+
+        <!-- Setup Screen -->
+        <div class="panel-body" id="setupPanel">
+            <form id="setupForm" onsubmit="handleFormSubmit(event)" class="form-grid">
+                <div class="input-group form-full-width">
+                    <label><i data-lucide="user" size="16"></i> Candidate Name</label>
+                    <input type="text" id="candidateName" placeholder="e.g. Alex Mercer" required>
+                </div>
+
+                <div class="input-group">
+                    <label><i data-lucide="briefcase" size="16"></i> Job Description</label>
+                    <textarea id="jobDesc" placeholder="Paste the job requirements here..." required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label><i data-lucide="file-text" size="16"></i> Upload Resume (PDF)</label>
+                    <div class="file-dropzone" style="height: 120px; display: flex; align-items: center; justify-content: center;">
+                        <input type="file" id="resumeFile" accept=".pdf" onchange="handleFileSelect(event)">
+                        <div class="dropzone-content">
+                            <i data-lucide="upload-cloud" size="24"></i>
+                            <span>Drop PDF or click to browse</span>
+                            <div class="file-name-display" id="fileNameDisplay"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group form-full-width">
+                    <label><i data-lucide="align-left" size="16"></i> Or Paste Resume Text</label>
+                    <textarea id="resumeText" placeholder="Alternative: paste raw resume text..." style="min-height: 80px;"></textarea>
+                </div>
+
+                <div class="form-full-width" style="margin-top: 8px;">
+                    <button type="submit" class="btn-primary" id="startBtn">
+                        <span>Initialize Session</span>
+                        <i data-lucide="arrow-right" size="18"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Live Interview Session Screen -->
+        <div class="panel-body" id="interviewPanel" style="display: none;">
+            <div class="chat-container" id="chatBox"></div>
+            
+            <!-- Audio Visualizer Component -->
+            <div id="audioVisualizer" class="visualizer-container">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+
+            <div class="controls-wrapper">
+                <input type="text" id="userInput" placeholder="Type response or click Mic..." onkeypress="handleKeyPress(event)">
+                <button class="action-btn" onclick="sendTextMessage()" title="Send Message">
+                    <i data-lucide="send" size="18"></i>
+                </button>
+                <button class="action-btn mic-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="Toggle Microphone">
+                    <i data-lucide="mic" size="18"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Script Link -->
+    <script src="script.js"></script>
+</body>
+</html>
